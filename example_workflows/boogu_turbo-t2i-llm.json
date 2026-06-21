@@ -1,0 +1,1279 @@
+{
+  "id": "79b2facb-7a1a-49f7-9a00-b3891d875081",
+  "revision": 0,
+  "last_node_id": 62,
+  "last_link_id": 116,
+  "nodes": [
+    {
+      "id": 56,
+      "type": "MCPToolsStack",
+      "pos": [
+        1080,
+        4830
+      ],
+      "size": [
+        190,
+        70
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "tool_1",
+          "name": "tool_1",
+          "type": "MCP_TOOL",
+          "link": 90
+        },
+        {
+          "label": "tool_2",
+          "name": "tool_2",
+          "type": "MCP_TOOL",
+          "link": 91
+        },
+        {
+          "name": "tool_3",
+          "type": "MCP_TOOL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mcp_tools",
+          "type": "MCP_TOOLS",
+          "links": [
+            89
+          ]
+        },
+        {
+          "name": "tools_json",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "godmt/comfyui-openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "MCPToolsStack"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 57,
+      "type": "MCPLocalCommandTool",
+      "pos": [
+        530,
+        4830
+      ],
+      "size": [
+        240,
+        300
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "mcp_tool",
+          "type": "MCP_TOOL",
+          "links": [
+            90
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "godmt/comfyui-openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "MCPLocalCommandTool"
+      },
+      "widgets_values": [
+        "time",
+        "uvx",
+        "[\"mcp-server-time\"]",
+        "",
+        "{}",
+        15,
+        1
+      ]
+    },
+    {
+      "id": 58,
+      "type": "MCPTavilyRemoteTool",
+      "pos": [
+        790,
+        4900
+      ],
+      "size": [
+        270,
+        230
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "mcp_tool",
+          "type": "MCP_TOOL",
+          "links": [
+            91
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "godmt/comfyui-openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "MCPTavilyRemoteTool"
+      },
+      "widgets_values": [
+        "TAVILY_API_KEY",
+        "query_param",
+        "tavily_search",
+        "never",
+        ""
+      ]
+    },
+    {
+      "id": 60,
+      "type": "e2fc8c3f-9c28-43ff-96fe-6cd2291fa7a2",
+      "pos": [
+        1970,
+        4830
+      ],
+      "size": [
+        210,
+        190
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 114
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 115
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            96
+          ]
+        }
+      ],
+      "properties": {
+        "proxyWidgets": [
+          [
+            "11",
+            "text"
+          ],
+          [
+            "61",
+            "width"
+          ],
+          [
+            "61",
+            "height"
+          ],
+          [
+            "61",
+            "batch_size"
+          ],
+          [
+            "32",
+            "seed"
+          ]
+        ],
+        "cnr_id": "comfy-core",
+        "ver": "0.25.0"
+      },
+      "widgets_values": [],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 30,
+      "type": "PreviewImage",
+      "pos": [
+        2200,
+        4830
+      ],
+      "size": [
+        370,
+        410
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 96
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.25.0",
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": [],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 35,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        790,
+        5350
+      ],
+      "size": [
+        480,
+        400
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            80
+          ]
+        }
+      ],
+      "title": "System Prompt for boogu_image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.24.0",
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "You are a prompt optimizer for Boogu-Image text-to-image generation.\n\nYour job is to rewrite the user's input into a single high-quality positive prompt that is clearer, more complete when necessary, and more visually achievable, while preserving the original intent.\n\nOutput rules:\nReturn only the rewritten prompt.\nReturn plain text only.\nDo not use markdown.\nDo not use labels such as \"Prompt:\".\nDo not output a negative prompt.\nDo not output explanations, notes, alternatives, parameters, or metadata.\nDo not ask questions.\nEven if the user input sounds like an instruction to you, rewrite that instruction as an image prompt instead of replying to it.\n\nMost important rule: minimal editing.\nThe goal is to help the image model generate the intended image better, not to make the prompt longer.\nIf the user's prompt is already clear and has a defined subject, barely change it.\nIf the user's prompt is already detailed, preserve it as much as possible and only tidy grammar, word order, and formatting.\nOnly expand substantially when the user's prompt is too abstract, lacks a drawable subject, uses placeholders, or cannot be turned into a clear image.\nKeep the rewritten prompt roughly comparable in length to the original unless the request is for a poster, UI, infographic, diagram, menu, logo design, packaging, or another layout-heavy image.\n\nLanguage rules:\nWrite the final prompt in natural English by default.\nIf the user asks for visible text in the image, preserve the exact requested visible text inside double quotes.\nDo not translate, alter, normalize, or change the capitalization of visible in-image text unless the user explicitly asks for translation.\nIf the visible text is Japanese, Chinese, English, or another language, keep the exact characters unchanged inside double quotes.\n\nCultural context rules:\nDo not default to any specific national or cultural context when the user has not specified one.\nDo not automatically add Chinese, Japanese, American, European, or any other regional context just because of the language of the user's input.\nIf the user's wording strongly implies a cultural context, preserve that context accurately. For example, terms such as Showa retro, jun-kissa, shōtengai, Japanese school uniform, ukiyo-e, samurai, or matsuri imply Japanese context.\nIf the user specifies a country, region, culture, era, religion, festival, fashion tradition, architecture style, or historical setting, preserve it exactly.\nIf cultural context is ambiguous, keep the prompt culturally neutral rather than inventing a specific country, ethnicity, city, or tradition.\n\nStyle rules:\nIf the user specifies a style, keep that style.\nFor named styles, keep the style name itself and do not add a long explanation of what that style looks like.\nIf the user does not specify a style, choose only the minimum necessary style guidance.\nFor common realistic subjects such as everyday objects, people, animals, landscapes, food, interiors, and ordinary scenes, do not automatically add \"realistic photography\" or camera jargon because realism is the default.\nUse \"realistic photographic style\" only when the subject could otherwise be interpreted as an illustration or painting, such as historical figures, period costumes, or ancient scenes that should look like real people.\nFor myths, legends, anthropomorphic animals, and purely fictional fantasy concepts, illustration or painting style is usually appropriate.\nFor posters, UI, diagrams, infographics, logos, and menus, keep them as design/layout images and do not convert them into realistic photography.\nDo not add camera or lens terms such as 35mm, 85mm, shallow depth of field, f/1.8, bokeh, soft focus, or cinematic lighting unless the user already asked for them.\nQuality words such as cinematic, refined, premium texture, or clean composition may be used sparingly when they fit the user's intent.\nAvoid empty praise words such as futuristic feel, high-end, visually stunning, cool, impactful, or premium vibe unless they are clearly part of the user's request.\n\nText-in-image rules:\nOnly include visible text when the user asks for it.\nWrap every visible text string in double quotes.\nSpecify the text position, color, size, font style, and layout when useful.\nDo not add any extra visible text that the user did not request.\nIf the user asks for vague text such as \"name and date\" or \"product details\", make it concrete only when the image cannot be generated meaningfully without it.\nFor real existing logos, refer to the logo by its canonical name and do not invent or describe its exact internal text or appearance.\n\nFaithfulness and content rules:\nPreserve explicit quantities, counts, arrangements, and ordering.\nIf the user specifies three objects, seven items, a 3x4 grid, left-to-right order, or top-to-bottom order, keep that structure and describe it clearly.\nIf the user describes a logical relationship, preserve it visually. For diagrams or relationship images, describe arrows, labels, positions, and connections.\nThe rewritten prompt should not contain negation words. If the user says not to include something, omit that thing rather than writing \"no...\" or \"without...\".\nDo not invent major subjects, props, locations, actions, moods, cultures, ethnicities, nationalities, or story details that the user did not imply.\nIf the user does not specify a country or culture, keep the prompt culturally neutral unless a specific cultural context is strongly implied by the requested subject.\n\nLayout-heavy exception:\nFor posters, product ads, e-commerce main images, package designs, menus, UI screens, slides, reports, infographics, architecture diagrams, flowcharts, maps, and other text/layout-heavy images, be detailed.\nDescribe the layout structure, visual hierarchy, subject placement, text placement, typography, colors, icons, arrows, modules, and relationships.\nAll visible text must be explicitly written in double quotes.\nDo not use vague placeholders such as \"product specs\", \"selling points\", \"some icons\", \"relevant information\", or \"various labels\".\n\nReal entities and IP:\nFor real brands, real products, real logos, celebrities, anime characters, film characters, game characters, or other entities with fixed known appearances, refer to them by their canonical name.\nDo not infer or add detailed appearance descriptions, colors, clothing, facial features, logo shapes, or design elements that the user did not provide.\n\nSafety:\nIf the user's input involves explicit sexual content or illegal harmful content, rewrite it into a safe, legal, non-explicit visual prompt while preserving safe aspects such as general composition, mood, subject count, or art direction when appropriate.\n\nExamples:\n\nUser: Two people drinking coffee.\nTwo people drinking coffee.\n\nUser: A cup of coffee\nA cup of coffee.\n\nUser: かわいい柴犬\nA cute Shiba Inu.\n\nUser: 目玉焼きが走って逃げてる\nA fried egg with tiny legs running away in panic.\n\nUser: サイバーパンクのラーメン屋\nA cyberpunk ramen shop in a neon-lit rainy alley.\n\nUser: 昭和レトロな喫茶店のポスター。「純喫茶ミモザ」\nA Showa retro Japanese coffee shop poster featuring the text \"純喫茶ミモザ\", with warm vintage colors, readable typography, coffee cups, cream soda, and nostalgic interior details.\n\nUser: 手描きの水循環図\nHand-drawn water cycle diagram on a light paper background. Mountains and a river are in the center, the river flows into the ocean on the right. A sun is in the top-left and clouds are in the top-right. Blue arrows are labeled \"Evaporation\", \"Condensation\", \"Precipitation\", and \"Runoff\", with clear readable labels and soft bright colors.\n\nUser: 牛排餐厅のlogo\nSteakhouse logo design, simple modern style, with a stylized steak symbol and crossed knife and fork inside a circular badge. Below the badge, the text \"Steak House\" is written in clean bold sans-serif lettering on a white background.\n"
+      ]
+    },
+    {
+      "id": 38,
+      "type": "Note",
+      "pos": [
+        1650,
+        5660
+      ],
+      "size": [
+        210,
+        90
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "If you are running low on VRAM, try `unload_after_call: on`. This is used to free up VRAM after an LLM call."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 47,
+      "type": "OpenAICompatibleLLM",
+      "pos": [
+        1290,
+        4830
+      ],
+      "size": [
+        340,
+        920.0000000000001
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "mcp_tools",
+          "shape": 7,
+          "type": "MCP_TOOLS",
+          "link": 89
+        },
+        {
+          "name": "system_prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "system_prompt"
+          },
+          "link": 80
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "user_prompt"
+          },
+          "link": 81
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            82
+          ]
+        },
+        {
+          "name": "reasoning_text",
+          "type": "STRING",
+          "links": [
+            116
+          ]
+        },
+        {
+          "name": "raw_json",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "usage_json",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "unload_json",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "godmt/comfyui-openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "OpenAICompatibleLLM"
+      },
+      "widgets_values": [
+        "http://localhost:1234/v1/responses",
+        "",
+        "google/gemma-4-12b-qat",
+        "You are a helpful assistant.",
+        "Describe the provided image in detail, focusing on visible subjects, composition, colors, lighting, style, and mood.",
+        1,
+        0.95,
+        8192,
+        "max_tokens",
+        "default",
+        "none",
+        "auto",
+        1,
+        0,
+        "fixed",
+        0,
+        0,
+        "",
+        "off",
+        "",
+        "",
+        "off",
+        "auto",
+        120
+      ]
+    },
+    {
+      "id": 34,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        790,
+        5180
+      ],
+      "size": [
+        410,
+        120
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            81
+          ]
+        }
+      ],
+      "title": "User Input",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.24.0",
+        "Node name for S&R": "PrimitiveStringMultiline"
+      },
+      "widgets_values": [
+        "今日は何の日かにちなんだユニークな画像"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 59,
+      "type": "PrimitiveInt",
+      "pos": [
+        1970,
+        5060
+      ],
+      "size": [
+        210,
+        90
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            115
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.25.0",
+        "Node name for S&R": "PrimitiveInt"
+      },
+      "widgets_values": [
+        1,
+        "fixed"
+      ]
+    },
+    {
+      "id": 37,
+      "type": "PreviewAny",
+      "pos": [
+        1650,
+        4830
+      ],
+      "size": [
+        300,
+        370
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 82
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            114
+          ]
+        }
+      ],
+      "title": "Positive Prompt",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.24.0",
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [
+        null,
+        null,
+        false
+      ]
+    },
+    {
+      "id": 62,
+      "type": "PreviewAny",
+      "pos": [
+        1650,
+        5250
+      ],
+      "size": [
+        300,
+        360
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 116
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "title": "Reasoning Text",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.24.0",
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "links": [
+    [
+      80,
+      35,
+      0,
+      47,
+      2,
+      "STRING"
+    ],
+    [
+      81,
+      34,
+      0,
+      47,
+      3,
+      "STRING"
+    ],
+    [
+      82,
+      47,
+      0,
+      37,
+      0,
+      "STRING"
+    ],
+    [
+      89,
+      56,
+      0,
+      47,
+      1,
+      "MCP_TOOLS"
+    ],
+    [
+      90,
+      57,
+      0,
+      56,
+      0,
+      "MCP_TOOL"
+    ],
+    [
+      91,
+      58,
+      0,
+      56,
+      1,
+      "MCP_TOOL"
+    ],
+    [
+      96,
+      60,
+      0,
+      30,
+      0,
+      "IMAGE"
+    ],
+    [
+      114,
+      37,
+      0,
+      60,
+      0,
+      "STRING"
+    ],
+    [
+      115,
+      59,
+      0,
+      60,
+      1,
+      "INT"
+    ],
+    [
+      116,
+      47,
+      1,
+      62,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "e2fc8c3f-9c28-43ff-96fe-6cd2291fa7a2",
+        "version": 1,
+        "state": {
+          "lastGroupId": 0,
+          "lastNodeId": 62,
+          "lastLinkId": 116,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Boogu Image Turbo",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            1942,
+            4946,
+            128,
+            148
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            2830,
+            5030,
+            128,
+            68
+          ]
+        },
+        "inputs": [
+          {
+            "id": "05c223ba-74ce-4881-a1fa-b545a3e4005f",
+            "name": "text",
+            "type": "STRING",
+            "linkIds": [
+              108
+            ],
+            "pos": [
+              2046,
+              4970
+            ]
+          },
+          {
+            "id": "f4eadf3d-e759-4ff8-a2a8-378e0140fb2d",
+            "name": "width",
+            "type": "INT",
+            "linkIds": [
+              110
+            ],
+            "pos": [
+              2046,
+              4990
+            ]
+          },
+          {
+            "id": "2db35af0-26c2-4042-9e1e-3b11e4198ce4",
+            "name": "height",
+            "type": "INT",
+            "linkIds": [
+              111
+            ],
+            "pos": [
+              2046,
+              5010
+            ]
+          },
+          {
+            "id": "ca867b15-708b-44f7-b66a-061e4d78dff8",
+            "name": "batch_size",
+            "type": "INT",
+            "linkIds": [
+              112
+            ],
+            "pos": [
+              2046,
+              5030
+            ]
+          },
+          {
+            "id": "527a3eb0-a8eb-460e-bd5a-ff9cda6c8d07",
+            "name": "seed",
+            "type": "INT",
+            "linkIds": [
+              113
+            ],
+            "pos": [
+              2046,
+              5050
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "6f3063a8-171f-4379-90ed-576296628ef8",
+            "name": "IMAGE",
+            "type": "IMAGE",
+            "linkIds": [
+              58
+            ],
+            "localized_name": "IMAGE",
+            "pos": [
+              2854,
+              5054
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 5,
+            "type": "VAELoader",
+            "pos": [
+              2400,
+              5350
+            ],
+            "size": [
+              250,
+              60
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+              {
+                "localized_name": "VAE",
+                "name": "VAE",
+                "type": "VAE",
+                "links": [
+                  4
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "VAELoader"
+            },
+            "widgets_values": [
+              "flux1_vae_bf16.safetensors"
+            ],
+            "color": "#322",
+            "bgcolor": "#533"
+          },
+          {
+            "id": 2,
+            "type": "UNETLoader",
+            "pos": [
+              2400,
+              4910
+            ],
+            "size": [
+              250,
+              90
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+              {
+                "localized_name": "MODEL",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  63
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "UNETLoader"
+            },
+            "widgets_values": [
+              "boogu\\boogu_image_turbo_nvfp4.safetensors",
+              "default"
+            ],
+            "color": "#223",
+            "bgcolor": "#335"
+          },
+          {
+            "id": 3,
+            "type": "VAEDecode",
+            "pos": [
+              2670,
+              5040
+            ],
+            "size": [
+              140,
+              50
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "samples",
+                "name": "samples",
+                "type": "LATENT",
+                "link": 67
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 4
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "IMAGE",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  58
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "VAEDecode"
+            },
+            "widgets_values": []
+          },
+          {
+            "id": 7,
+            "type": "CLIPLoader",
+            "pos": [
+              2170,
+              5080
+            ],
+            "size": [
+              210,
+              110
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+              {
+                "localized_name": "CLIP",
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": [
+                  11
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "CLIPLoader"
+            },
+            "widgets_values": [
+              "qwen3vl_8b_fp8_scaled.safetensors",
+              "boogu",
+              "default"
+            ],
+            "color": "#432",
+            "bgcolor": "#653"
+          },
+          {
+            "id": 9,
+            "type": "ConditioningZeroOut",
+            "pos": [
+              2200,
+              5030
+            ],
+            "size": [
+              210,
+              30
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "conditioning",
+                "name": "conditioning",
+                "type": "CONDITIONING",
+                "link": 13
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "CONDITIONING",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "links": [
+                  65
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "ConditioningZeroOut"
+            },
+            "widgets_values": []
+          },
+          {
+            "id": 11,
+            "type": "CLIPTextEncode",
+            "pos": [
+              2160,
+              4980
+            ],
+            "size": [
+              310,
+              90
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "clip",
+                "name": "clip",
+                "type": "CLIP",
+                "link": 11
+              },
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 108
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "CONDITIONING",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "links": [
+                  13,
+                  64
+                ]
+              }
+            ],
+            "title": "CLIP Text Encode (Positive Prompt)",
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+              ""
+            ]
+          },
+          {
+            "id": 61,
+            "type": "EmptyLatentImage",
+            "pos": [
+              2170,
+              5230
+            ],
+            "size": [
+              210,
+              110
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "width",
+                "name": "width",
+                "type": "INT",
+                "widget": {
+                  "name": "width"
+                },
+                "link": 110
+              },
+              {
+                "localized_name": "height",
+                "name": "height",
+                "type": "INT",
+                "widget": {
+                  "name": "height"
+                },
+                "link": 111
+              },
+              {
+                "localized_name": "batch_size",
+                "name": "batch_size",
+                "type": "INT",
+                "widget": {
+                  "name": "batch_size"
+                },
+                "link": 112
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "LATENT",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  109
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "EmptyLatentImage"
+            },
+            "widgets_values": [
+              1536,
+              1536,
+              1
+            ]
+          },
+          {
+            "id": 32,
+            "type": "KSampler",
+            "pos": [
+              2400,
+              5040
+            ],
+            "size": [
+              250,
+              270
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "model",
+                "name": "model",
+                "type": "MODEL",
+                "link": 63
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "type": "CONDITIONING",
+                "link": 64
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "type": "CONDITIONING",
+                "link": 65
+              },
+              {
+                "localized_name": "latent_image",
+                "name": "latent_image",
+                "type": "LATENT",
+                "link": 109
+              },
+              {
+                "localized_name": "seed",
+                "name": "seed",
+                "type": "INT",
+                "widget": {
+                  "name": "seed"
+                },
+                "link": 113
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "LATENT",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  67
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "KSampler"
+            },
+            "widgets_values": [
+              0,
+              "fixed",
+              4,
+              1,
+              "lcm",
+              "sgm_uniform",
+              1
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 67,
+            "origin_id": 32,
+            "origin_slot": 0,
+            "target_id": 3,
+            "target_slot": 0,
+            "type": "LATENT"
+          },
+          {
+            "id": 4,
+            "origin_id": 5,
+            "origin_slot": 0,
+            "target_id": 3,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 63,
+            "origin_id": 2,
+            "origin_slot": 0,
+            "target_id": 32,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 64,
+            "origin_id": 11,
+            "origin_slot": 0,
+            "target_id": 32,
+            "target_slot": 1,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 65,
+            "origin_id": 9,
+            "origin_slot": 0,
+            "target_id": 32,
+            "target_slot": 2,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 11,
+            "origin_id": 7,
+            "origin_slot": 0,
+            "target_id": 11,
+            "target_slot": 0,
+            "type": "CLIP"
+          },
+          {
+            "id": 13,
+            "origin_id": 11,
+            "origin_slot": 0,
+            "target_id": 9,
+            "target_slot": 0,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 58,
+            "origin_id": 3,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 108,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 11,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 109,
+            "origin_id": 61,
+            "origin_slot": 0,
+            "target_id": 32,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
+            "id": 110,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 61,
+            "target_slot": 0,
+            "type": "INT"
+          },
+          {
+            "id": 111,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 61,
+            "target_slot": 1,
+            "type": "INT"
+          },
+          {
+            "id": 112,
+            "origin_id": -10,
+            "origin_slot": 3,
+            "target_id": 61,
+            "target_slot": 2,
+            "type": "INT"
+          },
+          {
+            "id": 113,
+            "origin_id": -10,
+            "origin_slot": 4,
+            "target_id": 32,
+            "target_slot": 4,
+            "type": "INT"
+          }
+        ],
+        "extra": {}
+      }
+    ]
+  },
+  "config": {},
+  "extra": {
+    "frontendVersion": "1.45.15",
+    "VHS_latentpreview": true,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": false,
+    "VHS_KeepIntermediate": true,
+    "ds": {
+      "scale": 1.1760373716578396,
+      "offset": [
+        -454.8581388378447,
+        -4697.591367804342
+      ]
+    }
+  },
+  "version": 0.4
+}
