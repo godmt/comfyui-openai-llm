@@ -1,0 +1,26 @@
+[project]
+name = "openai-llm"
+version = "0.1.0"
+description = "Lightweight OpenAI-compatible LLM nodes for ComfyUI, with LM Studio, Ollama, Responses API, image input, MCP tools, and local MCP runners."
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+classifiers = [
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Repository = "https://github.com/godmt/comfyui-openai-llm"
+Documentation = "https://github.com/godmt/comfyui-openai-llm#readme"
+"Bug Tracker" = "https://github.com/godmt/comfyui-openai-llm/issues"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.comfy]
+PublisherId = "godmt"
+DisplayName = "OpenAI Compatible LLM"
+# Icon = "https://raw.githubusercontent.com/godmt/comfyui-openai-llm/main/assets/icon.png"
+# Banner = "https://raw.githubusercontent.com/godmt/comfyui-openai-llm/main/assets/banner.png"
+requires-comfyui = ">=0.3.0"

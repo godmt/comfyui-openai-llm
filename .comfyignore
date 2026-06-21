@@ -1,0 +1,13 @@
+# Development-only files
+tests/
+docs/
+.vscode/
+.idea/
+*.psd
+*.kra
+*.tmp
+__pycache__/
+*.pyc
+
+# Local env
+.env
