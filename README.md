@@ -22,6 +22,10 @@ The goal is to stay small, predictable, and workflow-friendly. This is not a cha
 - Local stdio MCP command runner for tools launched by `npx`, `uvx`, `python`, etc.
 - Dynamic MCP tools stack UI
 
+## Example
+
+<img src="docs/images/example_workflow.png" alt="Example Workflow">
+
 ## Installation
 
 Clone this repository into your ComfyUI `custom_nodes` directory.
