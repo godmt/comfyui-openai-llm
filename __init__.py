@@ -1,5 +1,5 @@
 """
-ComfyUI single-file custom node: OpenAI-compatible LLM caller
+ComfyUI custom node pack: OpenAI-compatible LLM caller
 
 Install:
   1. Put this file into: ComfyUI/custom_nodes/comfyui_openai_compatible_llm_node.py
@@ -313,28 +313,166 @@ def _merge_mcp_tools_into_body(body: Dict[str, Any], mcp_tools: Any) -> None:
     else:
         raise ValueError("extra_body_json.tools must be a JSON array when mcp_tools is also connected")
 
+
+_ENV_PLACEHOLDER_RE = re.compile(r"\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}")
+
+
+def _expand_env_placeholders(text: str, field_name: str) -> str:
+    """Expand {{ENV_NAME}} placeholders in a string.
+
+    Bare values are intentionally not treated as env vars. This avoids making
+    ordinary literals such as lang=ja or transport=sse ambiguous.
+    """
+    value = "" if text is None else str(text)
+
+    def repl(match: re.Match[str]) -> str:
+        env_name = match.group(1)
+        env_value = os.environ.get(env_name, "")
+        if not env_value:
+            raise ValueError(f"{field_name} references environment variable {env_name!r}, but it is empty")
+        return env_value
+
+    return _ENV_PLACEHOLDER_RE.sub(repl, value)
+
+
+def _expand_env_placeholders_in_url(url: str) -> str:
+    """Expand {{ENV_NAME}} placeholders in server_url.
+
+    This is intentionally supported as a flexible URL templating feature. Query
+    parameters are parsed and re-encoded so secrets or values containing special
+    characters are encoded safely.
+    """
+    if "{{" not in (url or ""):
+        return url
+
+    parts = urllib.parse.urlsplit(url)
+
+    query_pairs = urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+    if query_pairs:
+        query = urllib.parse.urlencode(
+            [
+                (
+                    _expand_env_placeholders(key, "server_url query parameter name"),
+                    _expand_env_placeholders(value, f"server_url query parameter {key!r}"),
+                )
+                for key, value in query_pairs
+            ]
+        )
+    else:
+        query = ""
+
+    return urllib.parse.urlunsplit(
+        (
+            parts.scheme,
+            parts.netloc,
+            _expand_env_placeholders(parts.path, "server_url path"),
+            query,
+            _expand_env_placeholders(parts.fragment, "server_url fragment"),
+        )
+    )
+
+
+def _expand_env_placeholders_in_json_value(value: Any, field_name: str) -> Any:
+    """Recursively expand {{ENV_NAME}} placeholders inside parsed JSON values."""
+    if isinstance(value, str):
+        return _expand_env_placeholders(value, field_name)
+    if isinstance(value, list):
+        return [
+            _expand_env_placeholders_in_json_value(item, f"{field_name}[{i}]")
+            for i, item in enumerate(value)
+        ]
+    if isinstance(value, dict):
+        return {
+            str(key): _expand_env_placeholders_in_json_value(val, f"{field_name}.{key}")
+            for key, val in value.items()
+        }
+    return value
+
+
+def _stringify_query_param_value(value: Any, field_name: str) -> str:
+    if value is None:
+        raise ValueError(f"{field_name} contains null, which cannot be used as a query parameter value")
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (str, int, float)):
+        return str(value)
+    raise ValueError(f"{field_name} values must be strings, numbers, or booleans")
+
+
+def _parse_query_params_json(value: str, field_name: str) -> Dict[str, str]:
+    text = (value or "").strip()
+    if not text:
+        return {}
+
+    parsed = _parse_json_object(text, field_name)
+    out: Dict[str, str] = {}
+
+    for key, param_value in parsed.items():
+        key_text = str(key).strip()
+        if not key_text:
+            raise ValueError(f"{field_name} contains an empty query parameter name")
+
+        raw_value = _stringify_query_param_value(param_value, field_name)
+        out[key_text] = _expand_env_placeholders(raw_value, f"{field_name}.{key_text}")
+
+    return out
+
+
+def _append_query_params_to_url(url: str, params: Dict[str, str]) -> str:
+    if not params:
+        return url
+
+    parts = urllib.parse.urlsplit(url)
+    existing = urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+
+    # Last write wins for duplicate names. This makes explicit query_params_json
+    # values override parameters already present in server_url.
+    ordered_names: List[str] = []
+    merged: Dict[str, str] = {}
+
+    for key, value in existing:
+        if key not in merged:
+            ordered_names.append(key)
+        merged[key] = value
+
+    for key, value in params.items():
+        if key not in merged:
+            ordered_names.append(key)
+        merged[key] = value
+
+    query = urllib.parse.urlencode([(key, merged[key]) for key in ordered_names])
+    return urllib.parse.urlunsplit((parts.scheme, parts.netloc, parts.path, query, parts.fragment))
+
+
 def _build_remote_mcp_tool(
     server_label: str,
     server_url: str,
     allowed_tools: str = "",
-    require_approval: Any = "never",
     server_description: str = "",
     headers_json: str = "",
     authorization_env: str = "",
+    query_params_json: str = "",
 ) -> Dict[str, Any]:
     label = (server_label or "").strip()
     url = (server_url or "").strip()
+
     if not label:
         raise ValueError("server_label is required")
     if not url:
         raise ValueError("server_url is required")
 
+    url = _expand_env_placeholders_in_url(url)
+    url = _append_query_params_to_url(url, _parse_query_params_json(query_params_json, "query_params_json"))
+
     tool: Dict[str, Any] = {
         "type": "mcp",
         "server_label": label,
         "server_url": url,
-        "require_approval": require_approval,
+        # ComfyUI has no interactive Remote MCP approval UI, so Remote MCP
+        # approval is intentionally fixed to "never".
+        "require_approval": "never",
     }
+
     if (server_description or "").strip():
         tool["server_description"] = server_description.strip()
 
@@ -344,7 +482,7 @@ def _build_remote_mcp_tool(
 
     headers = _parse_json_object(headers_json, "headers_json") if (headers_json or "").strip() else {}
     if headers:
-        tool["headers"] = headers
+        tool["headers"] = _expand_env_placeholders_in_json_value(headers, "headers_json")
 
     auth_env = (authorization_env or "").strip()
     if auth_env:
@@ -1891,7 +2029,7 @@ class MCPRemoteTool:
                     {
                         "default": "https://example.com/mcp",
                         "multiline": False,
-                        "tooltip": "Remote MCP server URL. Use HTTP/SSE or Streamable HTTP servers supported by your Responses API provider.",
+                        "tooltip": "Remote MCP server URL. Supports {{ENV_NAME}} placeholders for flexible URL templates. Prefer headers_json or authorization_env for secrets when the server supports headers.",
                     },
                 ),
                 "allowed_tools": (
@@ -1901,13 +2039,6 @@ class MCPRemoteTool:
                         "multiline": True,
                         "placeholder": "Optional. Newline, comma-separated, or JSON array, e.g. search\nextract",
                         "tooltip": "Optional allowlist of tool names exposed from this MCP server. Leave empty to expose all server tools.",
-                    },
-                ),
-                "require_approval": (
-                    ["never", "always"],
-                    {
-                        "default": "never",
-                        "tooltip": "Whether tool calls require approval. In ComfyUI workflows, never is usually required because there is no interactive approval UI.",
                     },
                 ),
             },
@@ -1926,7 +2057,16 @@ class MCPRemoteTool:
                         "default": "",
                         "multiline": True,
                         "placeholder": "Optional JSON object for MCP server headers.",
-                        "tooltip": "Optional headers sent to the MCP server by providers that support per-tool headers.",
+                        "tooltip": "Optional headers JSON. String values support {{ENV_NAME}} placeholders, e.g. {\"Authorization\":\"Bearer {{MY_TOKEN}}\"}.",
+                    },
+                ),
+                "query_params_json": (
+                    "STRING",
+                    {
+                        "default": "",
+                        "multiline": True,
+                        "placeholder": "Optional JSON object for URL query parameters, e.g. {\"apiKey\":\"{{MY_API_KEY}}\",\"transport\":\"sse\"}",
+                        "tooltip": "Optional URL query parameters appended to server_url. String values support {{ENV_NAME}} placeholders. Use only when the server requires query parameters.",
                     },
                 ),
                 "authorization_env": (
@@ -1945,9 +2085,9 @@ class MCPRemoteTool:
         server_label: str,
         server_url: str,
         allowed_tools: str,
-        require_approval: str,
         server_description: str = "",
         headers_json: str = "",
+        query_params_json: str = "",
         authorization_env: str = "",
     ) -> Tuple[Dict[str, Any]]:
         return (
@@ -1955,10 +2095,10 @@ class MCPRemoteTool:
                 server_label=server_label,
                 server_url=server_url,
                 allowed_tools=allowed_tools,
-                require_approval=require_approval,
                 server_description=server_description,
                 headers_json=headers_json,
                 authorization_env=authorization_env,
+                query_params_json=query_params_json,
             ),
         )
 
@@ -1989,7 +2129,7 @@ class MCPTavilyRemoteTool:
                     ["query_param", "authorization_header"],
                     {
                         "default": "query_param",
-                        "tooltip": "query_param appends ?tavilyApiKey=... to the server URL and is the safest first test. authorization_header sends Authorization: Bearer ... in tool headers.",
+                        "tooltip": "authorization_header sends Authorization: Bearer ... in tool headers. query_param appends ?tavilyApiKey=... and is a fallback for Tavily setups that require URL query auth.",
                     },
                 ),
                 "allowed_tools": (
@@ -1998,13 +2138,6 @@ class MCPTavilyRemoteTool:
                         "default": "tavily_search",
                         "multiline": True,
                         "tooltip": "Tavily tool allowlist. Common names include tavily_search, tavily_extract, tavily_map, and tavily_crawl. Leave empty to expose all.",
-                    },
-                ),
-                "require_approval": (
-                    ["never", "always"],
-                    {
-                        "default": "never",
-                        "tooltip": "Usually use never in ComfyUI because there is no interactive MCP approval UI.",
                     },
                 ),
             },
@@ -2026,16 +2159,17 @@ class MCPTavilyRemoteTool:
         tavily_api_key_env: str,
         auth_mode: str,
         allowed_tools: str,
-        require_approval: str,
         default_parameters_json: str = "",
     ) -> Tuple[Dict[str, Any]]:
         env_name = (tavily_api_key_env or "").strip()
         api_key = os.environ.get(env_name, "") if env_name else ""
+
         if not api_key:
             raise ValueError(f"Tavily API key environment variable is empty: {env_name!r}")
 
         base_url = "https://mcp.tavily.com/mcp/"
         headers: Dict[str, str] = {}
+
         params = (default_parameters_json or "").strip()
         if params:
             # Validate but preserve compact JSON as the Tavily header value.
@@ -2054,7 +2188,6 @@ class MCPTavilyRemoteTool:
                 server_label="tavily",
                 server_url=server_url,
                 allowed_tools=allowed_tools,
-                require_approval=require_approval,
                 server_description="Tavily web search, extraction, mapping, and crawling MCP server.",
                 headers_json=json.dumps(headers, ensure_ascii=False) if headers else "",
             ),
@@ -2083,13 +2216,6 @@ class MCPDeepWikiRemoteTool:
                         "tooltip": "DeepWiki tool allowlist. Defaults to the two read-only tools commonly used in OpenAI examples.",
                     },
                 ),
-                "require_approval": (
-                    ["never", "always"],
-                    {
-                        "default": "never",
-                        "tooltip": "Usually use never in ComfyUI because there is no interactive MCP approval UI.",
-                    },
-                ),
             },
             "optional": {
                 "server_url": (
@@ -2103,13 +2229,12 @@ class MCPDeepWikiRemoteTool:
             },
         }
 
-    def build(self, allowed_tools: str, require_approval: str, server_url: str = "https://mcp.deepwiki.com/mcp") -> Tuple[Dict[str, Any]]:
+    def build(self, allowed_tools: str, server_url: str = "https://mcp.deepwiki.com/mcp") -> Tuple[Dict[str, Any]]:
         return (
             _build_remote_mcp_tool(
                 server_label="deepwiki",
                 server_url=server_url,
                 allowed_tools=allowed_tools,
-                require_approval=require_approval,
                 server_description="DeepWiki MCP server for asking questions about public repositories and wiki structure.",
             ),
         )

@@ -1,75 +1,50 @@
 {
-  "id": "79b2facb-7a1a-49f7-9a00-b3891d875081",
+  "id": "162c6d4f-4391-4c14-8d98-bb91cba02d5f",
   "revision": 0,
-  "last_node_id": 62,
-  "last_link_id": 116,
+  "last_node_id": 68,
+  "last_link_id": 119,
   "nodes": [
     {
-      "id": 56,
-      "type": "MCPToolsStack",
+      "id": 30,
+      "type": "PreviewImage",
       "pos": [
-        1080,
+        2200,
         4830
       ],
       "size": [
-        190,
-        70
+        370,
+        410
       ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 6,
+      "flags": {},
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
-          "label": "tool_1",
-          "name": "tool_1",
-          "type": "MCP_TOOL",
-          "link": 90
-        },
-        {
-          "label": "tool_2",
-          "name": "tool_2",
-          "type": "MCP_TOOL",
-          "link": 91
-        },
-        {
-          "name": "tool_3",
-          "type": "MCP_TOOL",
-          "link": null
+          "name": "images",
+          "type": "IMAGE",
+          "link": 96
         }
       ],
-      "outputs": [
-        {
-          "name": "mcp_tools",
-          "type": "MCP_TOOLS",
-          "links": [
-            89
-          ]
-        },
-        {
-          "name": "tools_json",
-          "type": "STRING",
-          "links": null
-        }
-      ],
+      "outputs": [],
       "properties": {
-        "aux_id": "godmt/comfyui-openai-llm",
-        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
-        "Node name for S&R": "MCPToolsStack"
+        "cnr_id": "comfy-core",
+        "ver": "0.25.0",
+        "Node name for S&R": "PreviewImage"
       },
-      "widgets_values": []
+      "widgets_values": [],
+      "color": "#223",
+      "bgcolor": "#335"
     },
     {
-      "id": 57,
-      "type": "MCPLocalCommandTool",
+      "id": 59,
+      "type": "PrimitiveInt",
       "pos": [
-        530,
-        4830
+        1970,
+        5060
       ],
       "size": [
-        240,
-        300
+        210,
+        90
       ],
       "flags": {},
       "order": 0,
@@ -77,63 +52,21 @@
       "inputs": [],
       "outputs": [
         {
-          "name": "mcp_tool",
-          "type": "MCP_TOOL",
+          "name": "INT",
+          "type": "INT",
           "links": [
-            90
+            115
           ]
         }
       ],
       "properties": {
-        "aux_id": "godmt/comfyui-openai-llm",
-        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
-        "Node name for S&R": "MCPLocalCommandTool"
+        "cnr_id": "comfy-core",
+        "ver": "0.25.0",
+        "Node name for S&R": "PrimitiveInt"
       },
       "widgets_values": [
-        "time",
-        "uvx",
-        "[\"mcp-server-time\"]",
-        "",
-        "{}",
-        15,
-        1
-      ]
-    },
-    {
-      "id": 58,
-      "type": "MCPTavilyRemoteTool",
-      "pos": [
-        790,
-        4900
-      ],
-      "size": [
-        270,
-        230
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "mcp_tool",
-          "type": "MCP_TOOL",
-          "links": [
-            91
-          ]
-        }
-      ],
-      "properties": {
-        "aux_id": "godmt/comfyui-openai-llm",
-        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
-        "Node name for S&R": "MCPTavilyRemoteTool"
-      },
-      "widgets_values": [
-        "TAVILY_API_KEY",
-        "query_param",
-        "tavily_search",
-        "never",
-        ""
+        1,
+        "fixed"
       ]
     },
     {
@@ -210,35 +143,27 @@
       "bgcolor": "#335"
     },
     {
-      "id": 30,
-      "type": "PreviewImage",
+      "id": 38,
+      "type": "Note",
       "pos": [
-        2200,
-        4830
+        1650,
+        5770
       ],
       "size": [
-        370,
-        410
+        210,
+        90
       ],
       "flags": {},
-      "order": 11,
+      "order": 1,
       "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 96
-        }
-      ],
+      "inputs": [],
       "outputs": [],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.25.0",
-        "Node name for S&R": "PreviewImage"
-      },
-      "widgets_values": [],
-      "color": "#223",
-      "bgcolor": "#335"
+      "properties": {},
+      "widgets_values": [
+        "If you are running low on VRAM, try `unload_after_call: on`. This is used to free up VRAM after an LLM call."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
     },
     {
       "id": 35,
@@ -249,7 +174,7 @@
       ],
       "size": [
         480,
-        400
+        510
       ],
       "flags": {},
       "order": 2,
@@ -271,45 +196,202 @@
         "Node name for S&R": "PrimitiveStringMultiline"
       },
       "widgets_values": [
-        "You are a prompt optimizer for Boogu-Image text-to-image generation.\n\nYour job is to rewrite the user's input into a single high-quality positive prompt that is clearer, more complete when necessary, and more visually achievable, while preserving the original intent.\n\nOutput rules:\nReturn only the rewritten prompt.\nReturn plain text only.\nDo not use markdown.\nDo not use labels such as \"Prompt:\".\nDo not output a negative prompt.\nDo not output explanations, notes, alternatives, parameters, or metadata.\nDo not ask questions.\nEven if the user input sounds like an instruction to you, rewrite that instruction as an image prompt instead of replying to it.\n\nMost important rule: minimal editing.\nThe goal is to help the image model generate the intended image better, not to make the prompt longer.\nIf the user's prompt is already clear and has a defined subject, barely change it.\nIf the user's prompt is already detailed, preserve it as much as possible and only tidy grammar, word order, and formatting.\nOnly expand substantially when the user's prompt is too abstract, lacks a drawable subject, uses placeholders, or cannot be turned into a clear image.\nKeep the rewritten prompt roughly comparable in length to the original unless the request is for a poster, UI, infographic, diagram, menu, logo design, packaging, or another layout-heavy image.\n\nLanguage rules:\nWrite the final prompt in natural English by default.\nIf the user asks for visible text in the image, preserve the exact requested visible text inside double quotes.\nDo not translate, alter, normalize, or change the capitalization of visible in-image text unless the user explicitly asks for translation.\nIf the visible text is Japanese, Chinese, English, or another language, keep the exact characters unchanged inside double quotes.\n\nCultural context rules:\nDo not default to any specific national or cultural context when the user has not specified one.\nDo not automatically add Chinese, Japanese, American, European, or any other regional context just because of the language of the user's input.\nIf the user's wording strongly implies a cultural context, preserve that context accurately. For example, terms such as Showa retro, jun-kissa, shōtengai, Japanese school uniform, ukiyo-e, samurai, or matsuri imply Japanese context.\nIf the user specifies a country, region, culture, era, religion, festival, fashion tradition, architecture style, or historical setting, preserve it exactly.\nIf cultural context is ambiguous, keep the prompt culturally neutral rather than inventing a specific country, ethnicity, city, or tradition.\n\nStyle rules:\nIf the user specifies a style, keep that style.\nFor named styles, keep the style name itself and do not add a long explanation of what that style looks like.\nIf the user does not specify a style, choose only the minimum necessary style guidance.\nFor common realistic subjects such as everyday objects, people, animals, landscapes, food, interiors, and ordinary scenes, do not automatically add \"realistic photography\" or camera jargon because realism is the default.\nUse \"realistic photographic style\" only when the subject could otherwise be interpreted as an illustration or painting, such as historical figures, period costumes, or ancient scenes that should look like real people.\nFor myths, legends, anthropomorphic animals, and purely fictional fantasy concepts, illustration or painting style is usually appropriate.\nFor posters, UI, diagrams, infographics, logos, and menus, keep them as design/layout images and do not convert them into realistic photography.\nDo not add camera or lens terms such as 35mm, 85mm, shallow depth of field, f/1.8, bokeh, soft focus, or cinematic lighting unless the user already asked for them.\nQuality words such as cinematic, refined, premium texture, or clean composition may be used sparingly when they fit the user's intent.\nAvoid empty praise words such as futuristic feel, high-end, visually stunning, cool, impactful, or premium vibe unless they are clearly part of the user's request.\n\nText-in-image rules:\nOnly include visible text when the user asks for it.\nWrap every visible text string in double quotes.\nSpecify the text position, color, size, font style, and layout when useful.\nDo not add any extra visible text that the user did not request.\nIf the user asks for vague text such as \"name and date\" or \"product details\", make it concrete only when the image cannot be generated meaningfully without it.\nFor real existing logos, refer to the logo by its canonical name and do not invent or describe its exact internal text or appearance.\n\nFaithfulness and content rules:\nPreserve explicit quantities, counts, arrangements, and ordering.\nIf the user specifies three objects, seven items, a 3x4 grid, left-to-right order, or top-to-bottom order, keep that structure and describe it clearly.\nIf the user describes a logical relationship, preserve it visually. For diagrams or relationship images, describe arrows, labels, positions, and connections.\nThe rewritten prompt should not contain negation words. If the user says not to include something, omit that thing rather than writing \"no...\" or \"without...\".\nDo not invent major subjects, props, locations, actions, moods, cultures, ethnicities, nationalities, or story details that the user did not imply.\nIf the user does not specify a country or culture, keep the prompt culturally neutral unless a specific cultural context is strongly implied by the requested subject.\n\nLayout-heavy exception:\nFor posters, product ads, e-commerce main images, package designs, menus, UI screens, slides, reports, infographics, architecture diagrams, flowcharts, maps, and other text/layout-heavy images, be detailed.\nDescribe the layout structure, visual hierarchy, subject placement, text placement, typography, colors, icons, arrows, modules, and relationships.\nAll visible text must be explicitly written in double quotes.\nDo not use vague placeholders such as \"product specs\", \"selling points\", \"some icons\", \"relevant information\", or \"various labels\".\n\nReal entities and IP:\nFor real brands, real products, real logos, celebrities, anime characters, film characters, game characters, or other entities with fixed known appearances, refer to them by their canonical name.\nDo not infer or add detailed appearance descriptions, colors, clothing, facial features, logo shapes, or design elements that the user did not provide.\n\nSafety:\nIf the user's input involves explicit sexual content or illegal harmful content, rewrite it into a safe, legal, non-explicit visual prompt while preserving safe aspects such as general composition, mood, subject count, or art direction when appropriate.\n\nExamples:\n\nUser: Two people drinking coffee.\nTwo people drinking coffee.\n\nUser: A cup of coffee\nA cup of coffee.\n\nUser: かわいい柴犬\nA cute Shiba Inu.\n\nUser: 目玉焼きが走って逃げてる\nA fried egg with tiny legs running away in panic.\n\nUser: サイバーパンクのラーメン屋\nA cyberpunk ramen shop in a neon-lit rainy alley.\n\nUser: 昭和レトロな喫茶店のポスター。「純喫茶ミモザ」\nA Showa retro Japanese coffee shop poster featuring the text \"純喫茶ミモザ\", with warm vintage colors, readable typography, coffee cups, cream soda, and nostalgic interior details.\n\nUser: 手描きの水循環図\nHand-drawn water cycle diagram on a light paper background. Mountains and a river are in the center, the river flows into the ocean on the right. A sun is in the top-left and clouds are in the top-right. Blue arrows are labeled \"Evaporation\", \"Condensation\", \"Precipitation\", and \"Runoff\", with clear readable labels and soft bright colors.\n\nUser: 牛排餐厅のlogo\nSteakhouse logo design, simple modern style, with a stylized steak symbol and crossed knife and fork inside a circular badge. Below the badge, the text \"Steak House\" is written in clean bold sans-serif lettering on a white background.\n"
+        "You are a prompt optimizer for Boogu-Image text-to-image generation.\n\nYour job is to rewrite the user's input into a single high-quality positive prompt that is clearer, more complete when necessary, and more visually achievable, while preserving the original intent.\n\nOutput rules:\nReturn only the rewritten prompt.\nReturn plain text only.\nDo not use markdown.\nDo not use labels such as \"Prompt:\".\nDo not output a negative prompt.\nDo not output explanations, notes, alternatives, parameters, or metadata.\nDo not ask questions.\nEven if the user input sounds like an instruction to you, rewrite that instruction as an image prompt instead of replying to it.\n\nMost important rule: minimal editing.\nThe goal is to help the image model generate the intended image better, not to make the prompt longer.\nIf the user's prompt is already clear and has a defined subject, barely change it.\nIf the user's prompt is already detailed, preserve it as much as possible and only tidy grammar, word order, and formatting.\nOnly expand substantially when the user's prompt is too abstract, lacks a drawable subject, uses placeholders, or cannot be turned into a clear image.\nKeep the rewritten prompt roughly comparable in length to the original unless the request is for a poster, UI, infographic, diagram, menu, logo design, packaging, or another layout-heavy image.\n\nLanguage rules:\nWrite the final prompt in natural English by default.\nIf the user asks for visible text in the image, preserve the exact requested visible text inside double quotes.\nDo not translate, alter, normalize, or change the capitalization of visible in-image text unless the user explicitly asks for translation.\nIf the visible text is Japanese, Chinese, English, or another language, keep the exact characters unchanged inside double quotes.\n\nCultural context rules:\nDo not default to any specific national or cultural context when the user has not specified one.\nDo not automatically add Chinese, Japanese, American, European, or any other regional context just because of the language of the user's input.\nIf the user's wording strongly implies a cultural context, preserve that context accurately. For example, terms such as Showa retro, jun-kissa, shōtengai, Japanese school uniform, ukiyo-e, samurai, or matsuri imply Japanese context.\nIf the user specifies a country, region, culture, era, religion, festival, fashion tradition, architecture style, or historical setting, preserve it exactly.\nIf cultural context is ambiguous, keep the prompt culturally neutral rather than inventing a specific country, ethnicity, city, or tradition.\n\nStyle rules:\nIf the user specifies a style, keep that style.\nFor named styles, keep the style name itself and do not add a long explanation of what that style looks like.\nIf the user does not specify a style, choose only the minimum necessary style guidance.\nFor common realistic subjects such as everyday objects, people, animals, landscapes, food, interiors, and ordinary scenes, do not automatically add \"realistic photography\" or camera jargon because realism is the default.\nUse \"realistic photographic style\" only when the subject could otherwise be interpreted as an illustration or painting, such as historical figures, period costumes, or ancient scenes that should look like real people.\nFor myths, legends, anthropomorphic animals, and purely fictional fantasy concepts, illustration or painting style is usually appropriate.\nFor posters, UI, diagrams, infographics, logos, and menus, keep them as design/layout images and do not convert them into realistic photography.\nDo not add camera or lens terms such as 35mm, 85mm, shallow depth of field, f/1.8, bokeh, soft focus, or cinematic lighting unless the user already asked for them.\nQuality words such as cinematic, refined, premium texture, or clean composition may be used sparingly when they fit the user's intent.\nAvoid empty praise words such as futuristic feel, high-end, visually stunning, cool, impactful, or premium vibe unless they are clearly part of the user's request.\n\nText-in-image rules:\nOnly include visible text when the user asks for it.\nWrap every visible text string in double quotes.\nSpecify the text position, color, size, font style, and layout when useful.\nDo not add any extra visible text that the user did not request.\nIf the user asks for vague text such as \"name and date\" or \"product details\", make it concrete only when the image cannot be generated meaningfully without it.\nFor real existing logos, refer to the logo by its canonical name and do not invent or describe its exact internal text or appearance.\n\nFaithfulness and content rules:\nPreserve explicit quantities, counts, arrangements, and ordering.\nIf the user specifies three objects, seven items, a 3x4 grid, left-to-right order, or top-to-bottom order, keep that structure and describe it clearly.\nIf the user describes a logical relationship, preserve it visually. For diagrams or relationship images, describe arrows, labels, positions, and connections.\nThe rewritten prompt should not contain negation words. If the user says not to include something, omit that thing rather than writing \"no...\" or \"without...\".\nDo not invent major subjects, props, locations, actions, moods, cultures, ethnicities, nationalities, or story details that the user did not imply.\nIf the user does not specify a country or culture, keep the prompt culturally neutral unless a specific cultural context is strongly implied by the requested subject.\n\nLayout-heavy exception:\nFor posters, product ads, e-commerce main images, package designs, menus, UI screens, slides, reports, infographics, architecture diagrams, flowcharts, maps, and other text/layout-heavy images, be detailed.\nDescribe the layout structure, visual hierarchy, subject placement, text placement, typography, colors, icons, arrows, modules, and relationships.\nAll visible text must be explicitly written in double quotes.\nDo not use vague placeholders such as \"product specs\", \"selling points\", \"some icons\", \"relevant information\", or \"various labels\".\n\nReal entities and IP:\nFor real brands, real products, real logos, celebrities, anime characters, film characters, game characters, or other entities with fixed known appearances, refer to them by their canonical name.\nDo not infer or add detailed appearance descriptions, colors, clothing, facial features, logo shapes, or design elements that the user did not provide.\n\nSafety:\nIf the user's input involves explicit sexual content or illegal harmful content, rewrite it into a safe, legal, non-explicit visual prompt while preserving safe aspects such as general composition, mood, subject count, or art direction when appropriate.\n\nExamples:\n\nUser: Two people drinking coffee.\nTwo people drinking coffee.\n\nUser: A cup of coffee\nA cup of coffee.\n\nUser: かわいい柴犬\nA cute Shiba Inu.\n\nUser: 目玉焼きが走って逃げてる\nA fried egg with tiny legs running away in panic.\n\nUser: サイバーパンクのラーメン屋\nA cyberpunk ramen shop in a neon-lit rainy alley.\n\nUser: 昭和レトロな喫茶店のポスター。「純喫茶ミモザ」\nA Showa retro Japanese coffee shop poster featuring the text \"純喫茶ミモザ\", with warm vintage colors, readable typography, coffee cups, cream soda, and nostalgic interior details.\n\nUser: 手描きの水循環図\nHand-drawn water cycle diagram on a light paper background. Mountains and a river are in the center, the river flows into the ocean on the right. A sun is in the top-left and clouds are in the top-right. Blue arrows are labeled \"Evaporation\", \"Condensation\", \"Precipitation\", and \"Runoff\", with clear readable labels and soft bright colors.\n\nUser: 牛排餐厅のlogo\nSteakhouse logo design, simple modern style, with a stylized steak symbol and crossed knife and fork inside a circular badge. Below the badge, the text \"Steak House\" is written in clean bold sans-serif lettering on a white background.\n\n# Output\nAgain, return only the final image prompt."
       ]
     },
     {
-      "id": 38,
-      "type": "Note",
+      "id": 68,
+      "type": "PreviewAny",
       "pos": [
-        1650,
-        5660
+        790,
+        4830
       ],
       "size": [
-        210,
-        90
+        480,
+        300
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 118
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            117
+          ]
+        }
+      ],
+      "title": "Positive Prompt",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.24.0",
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [
+        null,
+        null,
+        null
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 56,
+      "type": "MCPToolsStack",
+      "pos": [
+        220,
+        4830
+      ],
+      "size": [
+        190,
+        70
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "tool_1",
+          "name": "tool_1",
+          "type": "MCP_TOOL",
+          "link": 90
+        },
+        {
+          "label": "tool_2",
+          "name": "tool_2",
+          "type": "MCP_TOOL",
+          "link": 91
+        },
+        {
+          "name": "tool_3",
+          "type": "MCP_TOOL",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mcp_tools",
+          "type": "MCP_TOOLS",
+          "links": [
+            119
+          ]
+        },
+        {
+          "name": "tools_json",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "MCPToolsStack",
+        "aux_id": "godmt/comfyui-openai-llm"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 58,
+      "type": "MCPTavilyRemoteTool",
+      "pos": [
+        -50,
+        5180
+      ],
+      "size": [
+        250,
+        230
       ],
       "flags": {},
       "order": 3,
       "mode": 0,
       "inputs": [],
-      "outputs": [],
-      "properties": {},
-      "widgets_values": [
-        "If you are running low on VRAM, try `unload_after_call: on`. This is used to free up VRAM after an LLM call."
+      "outputs": [
+        {
+          "name": "mcp_tool",
+          "type": "MCP_TOOL",
+          "links": [
+            91
+          ]
+        }
       ],
-      "color": "#432",
-      "bgcolor": "#653"
+      "properties": {
+        "cnr_id": "openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "MCPTavilyRemoteTool",
+        "aux_id": "godmt/comfyui-openai-llm"
+      },
+      "widgets_values": [
+        "TAVILY_API_KEY",
+        "query_param",
+        "tavily_search",
+        ""
+      ]
     },
     {
-      "id": 47,
+      "id": 57,
+      "type": "MCPLocalCommandTool",
+      "pos": [
+        -50,
+        4830
+      ],
+      "size": [
+        250,
+        300
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "mcp_tool",
+          "type": "MCP_TOOL",
+          "links": [
+            90
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "MCPLocalCommandTool",
+        "aux_id": "godmt/comfyui-openai-llm"
+      },
+      "widgets_values": [
+        "time",
+        "uvx",
+        "[\"mcp-server-time\", \"--local-timezone=Asia/Tokyo\"]",
+        "",
+        "{}",
+        15,
+        1
+      ]
+    },
+    {
+      "id": 67,
       "type": "OpenAICompatibleLLM",
       "pos": [
-        1290,
+        430,
         4830
       ],
       "size": [
         340,
-        920.0000000000001
+        1030
       ],
-      "flags": {},
-      "order": 7,
+      "flags": {
+        "collapsed": false
+      },
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
@@ -322,23 +404,7 @@
           "name": "mcp_tools",
           "shape": 7,
           "type": "MCP_TOOLS",
-          "link": 89
-        },
-        {
-          "name": "system_prompt",
-          "type": "STRING",
-          "widget": {
-            "name": "system_prompt"
-          },
-          "link": 80
-        },
-        {
-          "name": "user_prompt",
-          "type": "STRING",
-          "widget": {
-            "name": "user_prompt"
-          },
-          "link": 81
+          "link": 119
         }
       ],
       "outputs": [
@@ -346,15 +412,13 @@
           "name": "text",
           "type": "STRING",
           "links": [
-            82
+            118
           ]
         },
         {
           "name": "reasoning_text",
           "type": "STRING",
-          "links": [
-            116
-          ]
+          "links": []
         },
         {
           "name": "raw_json",
@@ -373,9 +437,118 @@
         }
       ],
       "properties": {
-        "aux_id": "godmt/comfyui-openai-llm",
+        "cnr_id": "openai-llm",
         "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
-        "Node name for S&R": "OpenAICompatibleLLM"
+        "Node name for S&R": "OpenAICompatibleLLM",
+        "aux_id": "godmt/comfyui-openai-llm"
+      },
+      "widgets_values": [
+        "http://localhost:1234/v1/responses",
+        "",
+        "google/gemma-4-12b-qat",
+        "You are a helpful assistant.",
+        "今日は何の日か検索して、その中から面白い物を一つ選び、何の日かのタイトルのみ出力してください。",
+        1,
+        0.95,
+        8192,
+        "max_tokens",
+        "default",
+        "none",
+        "auto",
+        1,
+        0,
+        "fixed",
+        0,
+        0,
+        "",
+        "off",
+        "",
+        "",
+        "off",
+        "auto",
+        120
+      ]
+    },
+    {
+      "id": 47,
+      "type": "OpenAICompatibleLLM",
+      "pos": [
+        1290,
+        4830
+      ],
+      "size": [
+        340,
+        1030
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "mcp_tools",
+          "shape": 7,
+          "type": "MCP_TOOLS",
+          "link": null
+        },
+        {
+          "name": "system_prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "system_prompt"
+          },
+          "link": 80
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "user_prompt"
+          },
+          "link": 117
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            82
+          ]
+        },
+        {
+          "name": "reasoning_text",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "name": "raw_json",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "usage_json",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "unload_json",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "openai-llm",
+        "ver": "81e0a2572c55a84f9c9b438bac7b266b15fd691e",
+        "Node name for S&R": "OpenAICompatibleLLM",
+        "aux_id": "godmt/comfyui-openai-llm"
       },
       "widgets_values": [
         "http://localhost:1234/v1/responses",
@@ -405,76 +578,6 @@
       ]
     },
     {
-      "id": 34,
-      "type": "PrimitiveStringMultiline",
-      "pos": [
-        790,
-        5180
-      ],
-      "size": [
-        410,
-        120
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            81
-          ]
-        }
-      ],
-      "title": "User Input",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.24.0",
-        "Node name for S&R": "PrimitiveStringMultiline"
-      },
-      "widgets_values": [
-        "今日は何の日かにちなんだユニークな画像"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 59,
-      "type": "PrimitiveInt",
-      "pos": [
-        1970,
-        5060
-      ],
-      "size": [
-        210,
-        90
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            115
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.25.0",
-        "Node name for S&R": "PrimitiveInt"
-      },
-      "widgets_values": [
-        1,
-        "fixed"
-      ]
-    },
-    {
       "id": 37,
       "type": "PreviewAny",
       "pos": [
@@ -486,7 +589,7 @@
         370
       ],
       "flags": {},
-      "order": 8,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -513,48 +616,10 @@
       "widgets_values": [
         null,
         null,
-        false
-      ]
-    },
-    {
-      "id": 62,
-      "type": "PreviewAny",
-      "pos": [
-        1650,
-        5250
-      ],
-      "size": [
-        300,
-        360
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "source",
-          "type": "*",
-          "link": 116
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": []
-        }
-      ],
-      "title": "Reasoning Text",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.24.0",
-        "Node name for S&R": "PreviewAny"
-      },
-      "widgets_values": [
-        null,
-        null,
         null
-      ]
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
     }
   ],
   "links": [
@@ -567,28 +632,12 @@
       "STRING"
     ],
     [
-      81,
-      34,
-      0,
-      47,
-      3,
-      "STRING"
-    ],
-    [
       82,
       47,
       0,
       37,
       0,
       "STRING"
-    ],
-    [
-      89,
-      56,
-      0,
-      47,
-      1,
-      "MCP_TOOLS"
     ],
     [
       90,
@@ -631,12 +680,28 @@
       "INT"
     ],
     [
-      116,
+      117,
+      68,
+      0,
       47,
-      1,
-      62,
+      3,
+      "STRING"
+    ],
+    [
+      118,
+      67,
+      0,
+      68,
       0,
       "STRING"
+    ],
+    [
+      119,
+      56,
+      0,
+      67,
+      1,
+      "MCP_TOOLS"
     ]
   ],
   "groups": [],
@@ -647,8 +712,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 0,
-          "lastNodeId": 62,
-          "lastLinkId": 116,
+          "lastNodeId": 68,
+          "lastLinkId": 119,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -788,43 +853,6 @@
             "bgcolor": "#533"
           },
           {
-            "id": 2,
-            "type": "UNETLoader",
-            "pos": [
-              2400,
-              4910
-            ],
-            "size": [
-              250,
-              90
-            ],
-            "flags": {},
-            "order": 1,
-            "mode": 0,
-            "inputs": [],
-            "outputs": [
-              {
-                "localized_name": "MODEL",
-                "name": "MODEL",
-                "type": "MODEL",
-                "links": [
-                  63
-                ]
-              }
-            ],
-            "properties": {
-              "cnr_id": "comfy-core",
-              "ver": "0.25.0",
-              "Node name for S&R": "UNETLoader"
-            },
-            "widgets_values": [
-              "boogu\\boogu_image_turbo_nvfp4.safetensors",
-              "default"
-            ],
-            "color": "#223",
-            "bgcolor": "#335"
-          },
-          {
             "id": 3,
             "type": "VAEDecode",
             "pos": [
@@ -881,7 +909,7 @@
               110
             ],
             "flags": {},
-            "order": 2,
+            "order": 1,
             "mode": 0,
             "inputs": [],
             "outputs": [
@@ -1139,6 +1167,43 @@
               "sgm_uniform",
               1
             ]
+          },
+          {
+            "id": 2,
+            "type": "UNETLoader",
+            "pos": [
+              2400,
+              4910
+            ],
+            "size": [
+              250,
+              90
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+              {
+                "localized_name": "MODEL",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  63
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.25.0",
+              "Node name for S&R": "UNETLoader"
+            },
+            "widgets_values": [
+              "boogu\\boogu_image_turbo_nvfp4.safetensors",
+              "default"
+            ],
+            "color": "#223",
+            "bgcolor": "#335"
           }
         ],
         "groups": [],
@@ -1268,10 +1333,10 @@
     "VHS_MetadataImage": false,
     "VHS_KeepIntermediate": true,
     "ds": {
-      "scale": 1.1760373716578396,
+      "scale": 0.9320388349514731,
       "offset": [
-        -454.8581388378447,
-        -4697.591367804342
+        140.68354919766398,
+        -4613.422719188993
       ]
     }
   },

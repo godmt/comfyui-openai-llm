@@ -86,7 +86,7 @@ Behavior:
 
 Defines a generic Remote MCP tool for Responses API.
 
-Use this when you have an HTTP/SSE or Streamable HTTP MCP server URL.
+Use this when you have an HTTP/SSE or Streamable HTTP MCP server URL. It supports optional headers, Bearer-style authorization from an environment variable, literal query parameters, and query parameters loaded from environment variables.
 
 ### MCP Tavily Remote Tool
 
@@ -299,6 +299,123 @@ user_prompt: Use the time tool and tell me the current time in Tokyo.
 
 The local MCP process is started for the node run and closed afterward.
 
+### Remote MCP authentication
+
+`MCP Remote Tool` supports several ways to provide authentication and parameters.
+
+```text
+server_url:
+  Remote MCP server URL.
+  Supports {{ENV_NAME}} placeholders for flexible URL templates.
+
+authorization_env:
+  Environment variable used as the Remote MCP `authorization` field.
+
+headers_json:
+  Optional headers JSON.
+  String values support {{ENV_NAME}} placeholders.
+
+query_params_json:
+  Optional query parameters appended to server_url.
+  String values support {{ENV_NAME}} placeholders.
+````
+
+Examples:
+
+```text
+server_url: https://example.com/mcp
+headers_json: {"X-API-Key":"{{MY_SEARCH_MCP_KEY}}"}
+```
+
+```text
+server_url: https://example.com/mcp
+query_params_json: {"apiKey":"{{MY_SEARCH_MCP_KEY}}","transport":"sse"}
+```
+
+```text
+server_url: https://example.com/mcp?apiKey={{MY_SEARCH_MCP_KEY}}&transport=sse
+```
+
+This node pack does not implement an interactive Remote MCP approval flow in ComfyUI. Remote MCP tools are always sent with:
+
+```json
+{"require_approval":"never"}
+```
+
+Only connect MCP servers you trust. MCP servers may access external services or perform actions depending on their implementation.
+
+### Header-based API key
+
+Recommended when the remote MCP server supports custom headers.
+
+```env
+MY_SEARCH_MCP_KEY=your-secret-key
+```
+
+```text
+MCP Remote Tool
+
+server_label: search_mcp
+server_url: https://example.com/mcp
+allowed_tools: search
+require_approval: never
+authorization_env:
+headers_json: {"X-API-Key":"{{MY_SEARCH_MCP_KEY}}"}
+query_params_json:
+```
+
+### Authorization / Bearer token
+
+Use `authorization_env` when your Responses API provider and Remote MCP server support the Remote MCP authorization field.
+
+```env
+MY_MCP_TOKEN=your-token
+```
+
+```text
+authorization_env: MY_MCP_TOKEN
+```
+
+Alternatively, use an explicit header:
+
+```json
+{"Authorization":"Bearer {{MY_MCP_TOKEN}}"}
+```
+
+### Query parameters
+
+Use `query_params_json` when the server needs URL query parameters.
+
+This keeps `server_url` clean and avoids putting secrets directly in the URL field.
+
+```env
+MY_SEARCH_MCP_KEY=your-secret-key
+```
+
+```text
+server_url: https://example.com/mcp
+query_params_json: {"apiKey":"{{MY_SEARCH_MCP_KEY}}","transport":"sse"}
+```
+
+At runtime, the node builds:
+
+```text
+https://example.com/mcp?apiKey=<value from MY_SEARCH_MCP_KEY>&transport=sse
+```
+
+The workflow stores only `{{MY_SEARCH_MCP_KEY}}`, not the secret value.
+
+### URL placeholder fallback
+
+This still works, but is not recommended for new workflows:
+
+```text
+server_url: https://example.com/mcp?apiKey={{MY_SEARCH_MCP_KEY}}
+```
+
+Prefer `query_params_json` instead.
+
+
 ## Chat Completions vs Responses API
 
 Use Chat Completions for maximum compatibility.
@@ -327,13 +444,109 @@ This node pack supports two MCP styles.
 
 Remote MCP tools are passed to the Responses API as `tools`.
 
-Example:
+For real workflows, prefer environment variables for API keys. Do not hard-code API keys directly in workflow JSON, README examples, screenshots, or shared workflows.
+
+#### Tavily preset node
+
+Use `MCP Tavily Remote Tool` for Tavily. This node reads the API key from an environment variable and builds the Remote MCP tool definition for you.
+
+Suggested node settings:
+
+```text
+tavily_api_key_env: TAVILY_API_KEY
+auth_mode: query_param
+allowed_tools: tavily_search
+require_approval: never
+```
+
+Recommended practice is to pass API keys via headers when the MCP server supports it.
+
+Tavily's own Remote MCP examples commonly use a query parameter, so the preset supports both modes. Use whichever mode works for your provider/server combination.
+
+```text
+auth_mode: authorization_header
+```
+
+or:
+
+```text
+auth_mode: query_param
+```
+
+With `auth_mode: query_param`, the node internally builds a server URL like this at runtime:
+
+```text
+https://mcp.tavily.com/mcp/?tavilyApiKey=<value from TAVILY_API_KEY>
+```
+
+The API key is not stored in the ComfyUI workflow when you use `tavily_api_key_env`, but it is still sent to the Responses API server as part of the Remote MCP tool definition so the server can call Tavily.
+
+#### Generic Remote MCP node
+
+Use `MCP Remote Tool` for arbitrary Remote MCP servers.
+
+Suggested generic settings:
+
+```text
+server_label: my_mcp
+server_url: https://example.com/mcp
+allowed_tools:
+require_approval: never
+authorization_env:
+headers_json:
+
+
+```
+
+`authorization_env` is for Bearer-token style authorization.
+
+Use `query_params_json` for literal query parameters:
+
+```json
+{"lang":"ja","limit":5}
+```
+
+Use `query_params_env_json` when a query parameter must be filled from an environment variable:
+
+```json
+{"apiKey":"MY_MCP_API_KEY"}
+```
+
+This appends `?apiKey=<value of MY_MCP_API_KEY>` to `server_url` at runtime, without storing the secret in the ComfyUI workflow JSON. If `server_url` already contains query parameters, the new values are merged. Values from `query_params_json` and `query_params_env_json` override query parameters with the same name already present in `server_url`.
+
+#### Generic example: query-parameter API key
+
+Some Remote MCP servers require an API key in the query string instead of an Authorization header. You can configure them without hard-coding the key.
+
+`.env`:
+
+```env
+MY_SEARCH_MCP_KEY=your-secret-key
+```
+
+`MCP Remote Tool`:
+
+```text
+server_label: search_mcp
+server_url: https://example.com/mcp
+allowed_tools: search
+require_approval: never
+ {"apiKey":"MY_SEARCH_MCP_KEY"}
+```
+
+At runtime, the internal Remote MCP server URL becomes:
+
+```text
+https://example.com/mcp?apiKey=<value from MY_SEARCH_MCP_KEY>
+```
+
+The final internal tool object passed to the Responses API looks like this:
 
 ```json
 {
   "type": "mcp",
   "server_label": "tavily",
-  "server_url": "https://mcp.tavily.com/mcp/?tavilyApiKey=...",
+  "server_url": "https://mcp.tavily.com/mcp/?tavilyApiKey=<runtime value>",
   "allowed_tools": ["tavily_search"],
   "require_approval": "never"
 }
