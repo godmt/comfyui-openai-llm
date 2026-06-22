@@ -28,14 +28,22 @@ The goal is to stay small, predictable, and workflow-friendly. This is not a cha
 
 ## Installation
 
-Clone this repository into your ComfyUI `custom_nodes` directory.
+### Method 1. Install via ComfyUI Manager
+
+Open ComfyUI Manager, search for `OpenAI Compatible LLM`, and install the node pack.
+
+If it does not appear immediately after release, refresh the node list or use the remote channel database.
+
+### Method 2. Clone this repository into your ComfyUI `custom_nodes` directory.
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/YOUR_NAME/comfyui-openai-llm.git
+git clone https://github.com/godmt/comfyui-openai-llm.git
 ```
 
 Restart ComfyUI.
+
+---
 
 If you use `.env` files, `python-dotenv` is optional but recommended:
 
